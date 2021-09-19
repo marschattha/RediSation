@@ -1,0 +1,8 @@
+var renderChannel = () => {
+  const html = "<%= j raw @html %>";
+  const room = document.querySelector("#channel")
+  room.innerHTML = html;
+  const last_message = document.querySelector('#room .card:last-child')
+  if (last_message) last_message.scrollIntoView({behavior: 'smooth'})
+}
+renderChannel();
