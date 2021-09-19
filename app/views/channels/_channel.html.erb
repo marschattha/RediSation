@@ -1,11 +1,11 @@
 <% if messages %>
   <div class="d-flex">
-    <h2><%= channel.name %></h2>
+    <h2 style="color:white" ><%= channel.name %></h2>
     <div class="ms-auto">
       <%= form_with url: channel_path(channel), method: :get, local: false do |f| %>
         <div class="input-group mb-2 d-flex">
-          <%= f.text_field :search, placeholder: 'Search', class: 'form-control', value: params[:search]  %>
-          <%= f.submit 'Search', class: 'btn btn-primary' id: "search-button" %>
+          <%= f.text_field :search, placeholder: 'Search', class: 'form-control dark-form-input', value: params[:search]  %>
+          <%= f.submit 'Search', class: 'btn btn-primary primary-btn', id: "search-button" %>
         </div>
       <% end %>
     </div>
