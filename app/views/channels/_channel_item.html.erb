@@ -2,7 +2,7 @@
   <%= link_to channel_path(channel.id), remote: true do %>
     <div>
       <p><%= channel.name %></p>
-      <em>Last message on this channel</em>
+      <em class="text-muted"><%= channel.last_message&.message || 'No messages' %></em>
     </div>
   <% end %>
 </li>

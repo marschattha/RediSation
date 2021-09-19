@@ -1,5 +1,6 @@
 class ChannelsController < ApplicationController
   before_action :authenticate_user! #, unless: :json_request?
+  include CableReady::Broadcaster
 
   def index
     @channel = Channel.new
@@ -15,6 +16,13 @@ class ChannelsController < ApplicationController
 
     respond_to do |format|
       if @channel.save
+        cable_ready['chat'].append(
+          selector: '#channel-list',
+          position: 'afterbegin',
+          html: render_to_string(partial: 'channel_item', locals: {channel: @channel})
+        )
+        cable_ready.broadcast
+
         format.html { redirect_to channels_path, notice: 'Channel Created' }
         format.json { render :user, status: :created }
         format.js { 
@@ -30,14 +38,18 @@ class ChannelsController < ApplicationController
 
   def show
     @channel = Channel.find params[:id]
-    @stream = @channel.stream
-    @messages = Message.find_all(*@stream.map(&:first))
+    stream = @channel.stream
+    if params[:search]
+      @messages = Message.redisearch.search("#{params[:search]} @channel_id:{#{@channel.id}}").map!{|obj| Message.new(**obj)}
+    else
+      @messages = Message.find_all(*stream.map(&:first))
+    end
     @message = Message.new(channel_id: @channel.id)
 
     respond_to do |format|
       format.html { render :show }
       format.js {
-        @html = render_to_string(partial: "channel", locals: {channel: @channel, stream: @stream, messages: @messages, message: @message})
+        @html = render_to_string(partial: "channel", locals: {channel: @channel, messages: @messages, message: @message})
         render :show 
       }
       format.json { render json: @channels, status: :created }

@@ -74,10 +74,6 @@ module RedisModel
       $redis.call('FT.CREATE', "idx:#{self::DOWNCASED_PLURAL_NAME}", 'ON', 'HASH', 'PREFIX', '1', self::DOWNCASED_NAME, 'SCHEMA', *args)
     end
 
-    def redisearch
-      # self.instance_variable_get(:@redisearch) ||= Redisearch.new("idx:#{self::DOWNCASED_PLURAL_NAME}")
-    end
-
     def primary_id id
       self.instance_variable_set(:@primary_id, id)
     end
@@ -91,10 +87,6 @@ module RedisModel
       else
         nil
       end
-    end
-
-    def search(query, opts)
-      redisearch.search(query, opts)
     end
 
     def exists?(id)
