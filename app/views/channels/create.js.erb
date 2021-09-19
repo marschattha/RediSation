@@ -1,0 +1,7 @@
+var renderChannelItem = () => {
+  const html = "<%= j raw @html %>";
+  const channelList = document.querySelector("#channel-list")
+  channelList.innerHTML += html;
+  document.getElementById("channel_name").value = ""
+}
+renderChannelItem();

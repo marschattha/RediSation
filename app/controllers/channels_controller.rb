@@ -17,7 +17,10 @@ class ChannelsController < ApplicationController
       if @channel.save
         format.html { redirect_to channels_path, notice: 'Channel Created' }
         format.json { render :user, status: :created }
-        format.js { render :create }
+        format.js { 
+          @html = render_to_string(partial: "channel_item", locals: {channel: @channel})
+          render :create 
+        }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -35,7 +38,8 @@ class ChannelsController < ApplicationController
       format.html { render :show }
       format.js {
         @html = render_to_string(partial: "channel", locals: {channel: @channel, stream: @stream, messages: @messages, message: @message})
-        render :show }
+        render :show 
+      }
       format.json { render json: @channels, status: :created }
     end
   end

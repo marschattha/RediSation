@@ -13,6 +13,8 @@
  *= require_tree .
  *= require_self
  */
+ @import 'bootstrap-icons/font/bootstrap-icons.css';
+
 #channel {
   height: 80vh;
 }
@@ -63,4 +65,12 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.profile-icon:hover {
+  cursor: pointer;
+}
+
+.user-profile-label {
+  margin-bottom:1rem
 }

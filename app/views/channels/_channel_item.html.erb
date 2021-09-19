@@ -1,0 +1,8 @@
+<li class="list-group-item">
+  <%= link_to channel_path(channel.id), remote: true do %>
+    <div>
+      <p><%= channel.name %></p>
+      <em>Last message on this channel</em>
+    </div>
+  <% end %>
+</li>
