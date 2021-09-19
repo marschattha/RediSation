@@ -27,7 +27,10 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if message.save
-        cable_ready["room"].append(
+        cable_ready["room"].text_content(
+          selector: "[data-channel-id='channel-#{channel.id}'] em",
+          text: message.message
+        ).append(
           selector: "[data-room-id='room-#{channel.id}']",
           position: "afterbegin",
           html: render_to_string(partial: "message", locals: {message: message, stream: [message_id]})
